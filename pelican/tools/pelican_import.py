@@ -8,6 +8,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 
 from codecs import open
@@ -711,7 +712,8 @@ def fields2pelican(
         print(out_filename)
 
         if in_markup in ('html', 'wp-html'):
-            html_filename = os.path.join(output_path, filename + '.html')
+            (html_fp, html_filename) = tempfile.mkstemp(suffix='.html')
+            os.close(html_fp)
 
             with open(html_filename, 'w', encoding='utf-8') as fp:
                 # Replace newlines with paragraphs wrapped with <p> so
